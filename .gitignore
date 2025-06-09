@@ -1,0 +1,29 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+pip-log.txt
+opt/gpt3contextual.db
+opt/slackbot.db
+
+# Virtual environment
+.env
+.venv
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode/c_cpp_properties.json
+.vscode/launch.json
+.vscode/settings.json
+.cursor
+
+# Docker
+*.pid
+*.sock
+
+# Logs
+*.log
