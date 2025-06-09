@@ -21,6 +21,10 @@ def handle_app_mention_events(body, say):
         return
     response = openai_client.chat.completions.create(
         model="gpt-4o",
+        messages=[
+            {"role": "system", "content": "あなたはSlack上の親切なアシスタントです。"},
+            {"role": "user", "content": user_prompt}
+        ],
         max_tokens=500
     )
 
