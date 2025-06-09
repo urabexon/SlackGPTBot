@@ -9,3 +9,6 @@ load_dotenv()
 app = App(token=os.environ["SLACK_BOT_TOKEN"])
 openai_client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
 
+if __name__ == "__main__":
+    handler = SocketModeHandler(app, os.environ["SLACK_APP_TOKEN"])
+    handler.start()
