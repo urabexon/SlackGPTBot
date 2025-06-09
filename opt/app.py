@@ -10,6 +10,11 @@ load_dotenv()
 app = App(token=os.environ["SLACK_BOT_TOKEN"])
 openai_client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
 
+# メンションで "!gpt ○○" と話しかけるとGPTが返答する
+@app.event("app_mention")
+def handle_app_mention_events(body, say):
+    text = body["event"]["text"]
+
 if __name__ == "__main__":
     handler = SocketModeHandler(app, os.environ["SLACK_APP_TOKEN"])
     handler.start()
