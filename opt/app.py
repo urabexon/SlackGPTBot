@@ -14,6 +14,9 @@ openai_client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
 @app.event("app_mention")
 def handle_app_mention_events(body, say):
     text = body["event"]["text"]
+    user_prompt = text.replace("<@" + body["event"]["user"] + ">", "").replace("!gpt", "").strip()
+
+    
 
 if __name__ == "__main__":
     handler = SocketModeHandler(app, os.environ["SLACK_APP_TOKEN"])
