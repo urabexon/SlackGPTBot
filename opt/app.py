@@ -28,6 +28,9 @@ def handle_app_mention_events(body, say):
         max_tokens=500
     )
 
+    reply = response.choices[0].message.content
+    say(reply)
+
 if __name__ == "__main__":
     handler = SocketModeHandler(app, os.environ["SLACK_APP_TOKEN"])
     handler.start()
