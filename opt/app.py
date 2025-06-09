@@ -16,6 +16,9 @@ def handle_app_mention_events(body, say):
     text = body["event"]["text"]
     user_prompt = text.replace("<@" + body["event"]["user"] + ">", "").replace("!gpt", "").strip()
 
+    if not user_prompt:
+        say("プロンプトが空です。何か話しかけてください！")
+        return
     
 
 if __name__ == "__main__":
