@@ -19,7 +19,10 @@ def handle_app_mention_events(body, say):
     if not user_prompt:
         say("プロンプトが空です。何か話しかけてください！")
         return
-    
+    response = openai_client.chat.completions.create(
+        model="gpt-4o",
+        max_tokens=500
+    )
 
 if __name__ == "__main__":
     handler = SocketModeHandler(app, os.environ["SLACK_APP_TOKEN"])
