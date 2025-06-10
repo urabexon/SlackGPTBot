@@ -68,4 +68,8 @@ class GPT_4O_CommandExecutor():
         using_channel = message["channel"]
         historyIdetifier = get_history_identifier(using_team, using_channel, message["user"])
 
+        # 履歴リセット
+        self.history_dict[historyIdetifier] = []
+
+        logger.info(f"GPT-4oの <@{message['user']}> さんの <#{using_channel}> での会話の履歴をリセットしました。")
         say_ts(client, message, f"GPT-4oの <@{message['user']}> さんの <#{using_channel}> での会話の履歴をリセットしました。")
