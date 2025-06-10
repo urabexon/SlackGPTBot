@@ -5,9 +5,9 @@ import os
 
 load_dotenv()
 
-MAX_TOKEN_SIZE = 
-COMPLETION_MAX_TOKEN_SIZE =
-INPUT_MAX_TOKEN_SIZE = MAX_TOKEN_SIZE - COMPLETION_MAX_TOKEN_SIZE
+MAX_TOKEN_SIZE = 128000 # トークンの最大サイズ
+COMPLETION_MAX_TOKEN_SIZE = 4096 # ChatCompletionの出力の最大トークンサイズ
+INPUT_MAX_TOKEN_SIZE = MAX_TOKEN_SIZE - COMPLETION_MAX_TOKEN_SIZE # ChatCompletionの入力に使うトークンサイズ
 
 def say_channel_analysis(client_openai, client, message, say, using_user, target_channel, logger):
     logger.info(f"<@{using_user}> さんの依頼で {target_channel} について、直近のチャンネルでの発言より分析します。")
