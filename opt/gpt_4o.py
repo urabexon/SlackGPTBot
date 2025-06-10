@@ -20,6 +20,16 @@ class GPT_4O_CommandExecutor():
         else:
             using_team = message["files"][0]["user_team"]
         using_channel = message["channel"]
+        history_idetifier = get_history_identifier(
+            using_team, using_channel, message["user"])
+        user_identifier = get_user_identifier(using_team, message["user"])
+
+        prompt = context["matches"][0]
+
+        contents = []
+
+        if "files" in message:
+            
     
     def execute_reset(self, client, message, say, context, logger):
         """GPT-4oを使って会話履歴のリセットをするコマンドの実行メソッド"""
