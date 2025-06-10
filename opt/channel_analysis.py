@@ -13,4 +13,6 @@ def say_channel_analysis(client_openai, client, message, say, using_user, target
 
     count = 0
     prompt = "以下のSlack上のチャンネルの投稿情報から、このチャンネルがどのようなチャンネルなのか分析して教えてください。\n\n----------------\n\n"
-    
+
+    say_ts(client, message, chat_gpt_response.choices[0].message.content)
+    logger.info(f"user: {message['user']}, content: {chat_gpt_response.choices[0].message.content}")
