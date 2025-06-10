@@ -41,6 +41,8 @@ def say_channel_analysis(client_openai, client, message, say, using_user, target
         say_ts(client, message, f"{target_channel} での発言は見つかりませんでした。")
         return
 
+    using_team = message["team"]
+    user_identifier = get_user_identifier(using_team, using_user)
             
 
     say_ts(client, message, chat_gpt_response.choices[0].message.content)
