@@ -42,13 +42,15 @@ class GPT_4_CommandExecutor():
 
         # ChatCompletionを呼び出す
         logger.info(f"user: {message['user']}, prompt: {prompt}")
-
+        logger.debug(response)
 
         # ヒストリー新追加
         new_response_message = response.choices[0].message
         history_array.append(new_response_message)
 
         # トークンのサイズがINPUT_MAX_TOKEN_SIZEを超えたら古いものを削除
+        
+
     
     def execute_reset(self, client, message, say, context, logger):
         """GPT-4を使って会話履歴のリセットをするコマンドの実行メソッド"""
