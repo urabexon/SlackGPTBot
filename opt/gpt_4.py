@@ -65,6 +65,8 @@ class GPT_4_CommandExecutor():
             history_array = history_array[1:]
         self.history_dict[history_idetifier] = history_array
 
+        say_ts(client, message, new_response_message.content)
+        logger.info(f"user: {message['user']}, content: {new_response_message.content}")
     
     def execute_reset(self, client, message, say, context, logger):
         """GPT-4を使って会話履歴のリセットをするコマンドの実行メソッド"""
