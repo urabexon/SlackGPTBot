@@ -45,6 +45,7 @@ def say_channel_analysis(client_openai, client, message, say, using_user, target
     user_identifier = get_user_identifier(using_team, using_user)
 
     # ChatCompletionを呼び出す
+    logger.debug(f"prompt: `{prompt}`")
     chat_gpt_response = client_openai.chat.completions.create(
         model="gpt-4o-mini",
         messages=[{"role": "user", "content": prompt}],
@@ -57,6 +58,7 @@ def say_channel_analysis(client_openai, client, message, say, using_user, target
         logit_bias={},
         user=user_identifier
     )
+    logger.debug(chat_gpt_response)
 
     say_ts(client, message, chat_gpt_response.choices[0].message.content)
     logger.info(f"user: {message['user']}, content: {chat_gpt_response.choices[0].message.content}")
