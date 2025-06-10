@@ -42,6 +42,18 @@ class GPT_4_CommandExecutor():
 
         # ChatCompletionを呼び出す
         logger.info(f"user: {message['user']}, prompt: {prompt}")
+        response = self.client_openai.chat.completions.create(
+            model="gpt-4",
+            messages=history_array,
+            top_p=1,
+            n=1,
+            max_tokens=self.COMPLETION_MAX_TOKEN_SIZE,
+            temperature=1,
+            presence_penalty=0,
+            frequency_penalty=0,
+            logit_bias={},
+            user=user_identifier
+        )
         logger.debug(response)
 
         # ヒストリー新追加
@@ -49,7 +61,7 @@ class GPT_4_CommandExecutor():
         history_array.append(new_response_message)
 
         # トークンのサイズがINPUT_MAX_TOKEN_SIZEを超えたら古いものを削除
-        
+
 
     
     def execute_reset(self, client, message, say, context, logger):
