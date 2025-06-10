@@ -26,10 +26,15 @@ class GPT_4O_CommandExecutor():
 
         prompt = context["matches"][0]
 
-        contents = []
+        contents = [
+            {
+                "type": "text",
+                "text": prompt
+            }
+        ]
 
         if "files" in message:
-            
+
     
     def execute_reset(self, client, message, say, context, logger):
         """GPT-4oを使って会話履歴のリセットをするコマンドの実行メソッド"""
