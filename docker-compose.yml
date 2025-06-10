@@ -1,6 +1,13 @@
-version: '3'
+version: '3.9'
+
 services:
   slackgptbot:
+    container_name: "chatgpt-slackbot${NAME_SUFFIX:-dev}"
     build: .
-    env_file: .env
+    working_dir: /root/
+    volumes:
+      - ./opt:/root/opt
+    env_file:
+      - ./opt/.env
+    tty: true
     restart: unless-stopped
