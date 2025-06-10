@@ -14,6 +14,11 @@ class GPT_4_CommandExecutor():
 
     def execute(self, client, message, say, context, logger):
         """GPT-4を使って会話をするコマンドの実行メソッド"""
+        using_team = message["team"]
+        using_channel = message["channel"]
+        history_idetifier = get_history_identifier(using_team, using_channel, message["user"])
     
     def execute_reset(self, client, message, say, context, logger):
         """GPT-4を使って会話履歴のリセットをするコマンドの実行メソッド"""
+        using_team = message["team"]
+        using_channel = message["channel"]
