@@ -54,6 +54,8 @@ def say_channel_analysis(client_openai, client, message, say, using_user, target
         temperature=1,  # 生成する応答の多様性
         presence_penalty=0,
         frequency_penalty=0,
+        logit_bias={},
+        user=user_identifier
     )
 
     say_ts(client, message, chat_gpt_response.choices[0].message.content)
