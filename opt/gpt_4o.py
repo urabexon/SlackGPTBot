@@ -10,8 +10,11 @@ class GPT_4O_CommandExecutor():
     INPUT_MAX_TOKEN_SIZE = MAX_TOKEN_SIZE - COMPLETION_MAX_TOKEN_SIZE  # ChatCompletionの入力に使うトークンサイズ
 
     def __init__(self, client_openai):
+        self.history_dict : Dict[str, List[Dict[str, str]]] = {}
+        self.client_openai = client_openai
 
     def execute(self, client, message, say, context, logger):
+        """GPT-4oを使って会話をするコマンドの実行メソッド"""
     
     def execute_reset(self, client, message, say, context, logger):
         """GPT-4oを使って会話履歴のリセットをするコマンドの実行メソッド"""
