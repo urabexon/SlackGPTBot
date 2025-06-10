@@ -62,7 +62,11 @@ class GPT_4O_CommandExecutor():
         history_array.append({"role": "user", "content": contents})
 
         # トークンのサイズがINPUT_MAX_TOKEN_SIZEを超えたら古いものを削除
-        # 単一の発言でMAX_TOKEN_SIZEを超えたら、対応できない
+        while calculate_num_tokens(history_array) > self.INPUT_MAX_TOKEN_SIZE:
+            history_array = history_array[1:]
+
+        # 単一の発言でMAX_TOKEN_SIZEを超えたら対応できない
+        
         # ChatCompletionを呼び出す
     
     def execute_reset(self, client, message, say, context, logger):
