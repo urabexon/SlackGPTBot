@@ -43,7 +43,13 @@ def say_channel_analysis(client_openai, client, message, say, using_user, target
 
     using_team = message["team"]
     user_identifier = get_user_identifier(using_team, using_user)
-            
+
+    # ChatCompletionを呼び出す
+    chat_gpt_response = client_openai.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[{"role": "user", "content": prompt}],
+        
+    )
 
     say_ts(client, message, chat_gpt_response.choices[0].message.content)
     logger.info(f"user: {message['user']}, content: {chat_gpt_response.choices[0].message.content}")
