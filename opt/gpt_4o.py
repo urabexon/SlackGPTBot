@@ -59,6 +59,7 @@ class GPT_4O_CommandExecutor():
         history_array: List[Dict[str, str]] = []
         if history_idetifier in self.history_dict.keys():
             history_array = self.history_dict[history_idetifier]
+        history_array.append({"role": "user", "content": contents})
 
         # トークンのサイズがINPUT_MAX_TOKEN_SIZEを超えたら古いものを削除
         # 単一の発言でMAX_TOKEN_SIZEを超えたら、対応できない
