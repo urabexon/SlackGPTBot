@@ -38,7 +38,14 @@ class GPT_4O_CommandExecutor():
         if "files" in message:
             for file in message["files"]:
                 url = file["url_private"]
+                mimetype = file["mimetype"]
                 SLACK_BOT_TOKEN = os.getenv("SLACK_BOT_TOKEN")
+
+                encoded_data = base64.b64encode()
+                encoded_string = encoded_data.decode('utf-8')
+
+        # ヒストリーを取得
+        history_array: List[Dict[str, str]] = []
                 
     
     def execute_reset(self, client, message, say, context, logger):
