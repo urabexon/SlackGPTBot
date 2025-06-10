@@ -33,3 +33,10 @@ class GPT_4_CommandExecutor():
         """GPT-4を使って会話履歴のリセットをするコマンドの実行メソッド"""
         using_team = message["team"]
         using_channel = message["channel"]
+        historyIdetifier = get_history_identifier(using_team, using_channel, message["user"])
+
+        # 履歴リセット
+        self.history_dict[historyIdetifier] = []
+
+        logger.info(f"GPT-4の <@{message['user']}> さんの <#{using_channel}> での会話の履歴をリセットしました。")
+        say_ts(client, message, f"GPT-4の <@{message['user']}> さんの <#{using_channel}> での会話の履歴をリセットしました。")
