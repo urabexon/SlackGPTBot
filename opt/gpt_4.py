@@ -4,6 +4,10 @@ from typing import List, Dict
 class GPT_4_CommandExecutor():
     """GPT-4を使って会話をするコマンドの実行クラス"""
 
+    MAX_TOKEN_SIZE = 8192  # トークンの最大サイズ
+    COMPLETION_MAX_TOKEN_SIZE = 2048  # ChatCompletionの出力の最大トークンサイズ
+    INPUT_MAX_TOKEN_SIZE = MAX_TOKEN_SIZE - COMPLETION_MAX_TOKEN_SIZE  # ChatCompletionの入力に使うトークンサイズ
+
     def __init__(self, client_openai):
 
     def execute(self, client, message, say, context, logger):
