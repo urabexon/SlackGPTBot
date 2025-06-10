@@ -15,6 +15,15 @@ class GPT_4O_CommandExecutor():
 
     def execute(self, client, message, say, context, logger):
         """GPT-4oを使って会話をするコマンドの実行メソッド"""
+        if "team" in message:
+            using_team = message["team"]
+        else:
+            using_team = message["files"][0]["user_team"]
+        using_channel = message["channel"]
     
     def execute_reset(self, client, message, say, context, logger):
         """GPT-4oを使って会話履歴のリセットをするコマンドの実行メソッド"""
+        if "team" in message:
+            using_team = message["team"]
+        else:
+            using_team = message["files"][0]["user_team"]
