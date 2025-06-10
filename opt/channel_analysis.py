@@ -23,7 +23,17 @@ def say_channel_analysis(client_openai, client, message, say, using_user, target
 
     count = 0
     prompt = "以下のSlack上のチャンネルの投稿情報から、このチャンネルがどのようなチャンネルなのか分析して教えてください。\n\n----------------\n\n"
-    
+    for match in matches:
+        if match["channel"]["is_private"] == False and match["channel"]["is_mpim"] == False:
+            formated_message = f"""
+            投稿チャンネル: {match["channel"]["name"]}
+            投稿日時: {datetime.datetime.fromtimestamp(float(match["ts"]))}
+            ユーザー名: {match["username"]}
+            投稿内容: {match["text"]}
+            """
+
+            
+            
 
     say_ts(client, message, chat_gpt_response.choices[0].message.content)
     logger.info(f"user: {message['user']}, content: {chat_gpt_response.choices[0].message.content}")
