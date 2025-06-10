@@ -22,6 +22,11 @@ class GPT_4_CommandExecutor():
         prompt = context["matches"][0]
 
         # ヒストリー取得
+        history_array: List[Dict[str, str]] = []
+        if history_idetifier in self.history_dict.keys():
+            history_array = self.history_dict[history_idetifier]
+        history_array.append({"role": "user", "content": prompt})
+
         # トークンのサイズがINPUT_MAX_TOKEN_SIZEを超えたら古いものを削除する
     
     def execute_reset(self, client, message, say, context, logger):
