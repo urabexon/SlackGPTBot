@@ -32,7 +32,10 @@ def say_channel_analysis(client_openai, client, message, say, using_user, target
             投稿内容: {match["text"]}
             """
 
-            
+            # 指定トークン数以上になったら追加しない
+            if calculate_num_tokens_by_prompt(prompt + formated_message) < INPUT_MAX_TOKEN_SIZE:
+                count += 1
+                prompt += formated_message
             
 
     say_ts(client, message, chat_gpt_response.choices[0].message.content)
