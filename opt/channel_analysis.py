@@ -36,6 +36,11 @@ def say_channel_analysis(client_openai, client, message, say, using_user, target
             if calculate_num_tokens_by_prompt(prompt + formated_message) < INPUT_MAX_TOKEN_SIZE:
                 count += 1
                 prompt += formated_message
+    
+    if len(matches) == 0 or count == 0:
+        say_ts(client, message, f"{target_channel} での発言は見つかりませんでした。")
+        return
+
             
 
     say_ts(client, message, chat_gpt_response.choices[0].message.content)
