@@ -40,9 +40,20 @@ class GPT_4O_CommandExecutor():
                 url = file["url_private"]
                 mimetype = file["mimetype"]
                 SLACK_BOT_TOKEN = os.getenv("SLACK_BOT_TOKEN")
-
-                encoded_data = base64.b64encode()
+                url_data = requests.get(url,
+                                        allow_redirects=True,
+                                        headers={
+                                            'Authorization': f"Bearer {SLACK_BOT_TOKEN}"},
+                                        stream=True
+                                        ).content
+                encoded_data = base64.b64encode(url_data)
                 encoded_string = encoded_data.decode('utf-8')
+                contents.append({
+                    "type": "image_url",
+                    "image_url": {
+                    "url": f"data:{mimetype};base64,{encoded_string}"
+                    }
+                })
 
         # ヒストリーを取得
         history_array: List[Dict[str, str]] = []
