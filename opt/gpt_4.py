@@ -17,6 +17,12 @@ class GPT_4_CommandExecutor():
         using_team = message["team"]
         using_channel = message["channel"]
         history_idetifier = get_history_identifier(using_team, using_channel, message["user"])
+        user_identifier = get_user_identifier(using_team, message["user"])
+
+        prompt = context["matches"][0]
+
+        # ヒストリー取得
+        # トークンのサイズがINPUT_MAX_TOKEN_SIZEを超えたら古いものを削除する
     
     def execute_reset(self, client, message, say, context, logger):
         """GPT-4を使って会話履歴のリセットをするコマンドの実行メソッド"""
