@@ -48,7 +48,9 @@ def say_channel_analysis(client_openai, client, message, say, using_user, target
     chat_gpt_response = client_openai.chat.completions.create(
         model="gpt-4o-mini",
         messages=[{"role": "user", "content": prompt}],
-        
+        top_p=1,
+        n=1,
+        max_tokens=COMPLETION_MAX_TOKEN_SIZE
     )
 
     say_ts(client, message, chat_gpt_response.choices[0].message.content)
