@@ -66,7 +66,12 @@ class GPT_4O_CommandExecutor():
             history_array = history_array[1:]
 
         # 単一の発言でMAX_TOKEN_SIZEを超えたら対応できない
-        
+        if(len(history_array) == 0):
+            messege_out_of_token_size = f"発言内容のトークン数が{self.INPUT_MAX_TOKEN_SIZE}を超えて、{calculate_num_tokens_by_prompt(prompt)}であったため、対応できませんでした。"
+            say_ts(client, message, messege_out_of_token_size)
+            logger.info(messege_out_of_token_size)
+            return
+
         # ChatCompletionを呼び出す
     
     def execute_reset(self, client, message, say, context, logger):
