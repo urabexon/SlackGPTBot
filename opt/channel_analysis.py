@@ -2,6 +2,7 @@ from typing import List, Dict
 from util import get_user_identifier, calculate_num_tokens_by_prompt, calculate_num_tokens, say_ts
 import datetime
 import os
+from dotenv import load_dotenv
 
 load_dotenv()
 
