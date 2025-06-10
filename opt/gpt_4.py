@@ -32,8 +32,17 @@ class GPT_4_CommandExecutor():
             history_array = history_array[1:]
 
         # 単一の発言でMAX_TOKEN_SIZEを超えたら対応できない
+         if(len(history_array) == 0):
+            messege_out_of_token_size = f"発言内容のトークン数が{self.INPUT_MAX_TOKEN_SIZE}を超えて、{calculate_num_tokens_by_prompt(prompt)}であったため、対応できませんでした。"
+            say_ts(client, message, messege_out_of_token_size)
+            logger.info(messege_out_of_token_size)
+            return
 
         say_ts(client, message, f"GPT-4で <@{message['user']}> さんの以下の発言に対応中（履歴数: {len(history_array)} 、トークン数: {calculate_num_tokens(history_array)}）\n```\n{prompt}\n```")
+
+        # ChatCompletionを呼び出す
+        # ヒストリー新追加
+        # トークンのサイズがINPUT_MAX_TOKEN_SIZEを超えたら古いものを削除
     
     def execute_reset(self, client, message, say, context, logger):
         """GPT-4を使って会話履歴のリセットをするコマンドの実行メソッド"""
