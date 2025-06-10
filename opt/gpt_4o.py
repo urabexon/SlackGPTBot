@@ -57,7 +57,12 @@ class GPT_4O_CommandExecutor():
 
         # ヒストリーを取得
         history_array: List[Dict[str, str]] = []
-                
+        if history_idetifier in self.history_dict.keys():
+            history_array = self.history_dict[history_idetifier]
+
+        # トークンのサイズがINPUT_MAX_TOKEN_SIZEを超えたら古いものを削除
+        # 単一の発言でMAX_TOKEN_SIZEを超えたら、対応できない
+        # ChatCompletionを呼び出す
     
     def execute_reset(self, client, message, say, context, logger):
         """GPT-4oを使って会話履歴のリセットをするコマンドの実行メソッド"""
