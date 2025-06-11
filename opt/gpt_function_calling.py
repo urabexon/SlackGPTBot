@@ -195,9 +195,16 @@ class GPT_Function_Calling_CommandExecutor():
             })
 
             # トークンのサイズがINPUT_MAX_TOKEN_SIZEを超えたら古いものを削除
+            while calculate_num_tokens(history_array) > self.INPUT_MAX_TOKEN_SIZE:
+                history_array = history_array[1:]
+
             # 検索結果が大きくのでMAX_TOKEN_SIZEを超えたら対応できない
+
             # ChatCompletionを呼び出す
+            
             # ヒストリーを新たに追加
+            new_response_message = response.choices[0].message
+            history_array.append(new_response_message)
 
         # トークンのサイズがINPUT_MAX_TOKEN_SIZEを超えたら古いものを削除
     
