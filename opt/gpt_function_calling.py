@@ -13,5 +13,17 @@ class GPT_Function_Calling_CommandExecutor():
     INPUT_MAX_TOKEN_SIZE = MAX_TOKEN_SIZE - \ 
         COMPLETION_MAX_TOKEN_SIZE - \
         calculate_num_tokens_by_prompt(json.dumps(FUNCTIONS, ensure_ascii=False))
-    
 
+    def __init__(self, client_openai):
+    
+    async def get_web_search_result(self, query):
+        """Web検索を実行する、Function Calling用実装 (100件固定)"""
+    
+    def get_slack_search_result(self, query, client):
+        """Slack検索を実行する、Function Calling用実装 (100件固定)"""
+    
+    def execute(self, client, message, say, context, logger):
+        """Function Callingを使って会話をするコマンドの実行メソッド"""
+    
+    def execute_reset(self, client, message, say, context, logger):
+        """ChatGPT Function Callingを使った会話履歴のリセットをするコマンドの実行メソッド"""
