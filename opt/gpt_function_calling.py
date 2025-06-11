@@ -81,6 +81,9 @@ class GPT_Function_Calling_CommandExecutor():
                     "timestamp": datetime.fromtimestamp(float(match["ts"])).strftime("%Y/%m/%d %H:%M:%S"),
                     "user_id": match["user"]  # usernameは古いデフォルト名なため入れない
                 })
+            
+            if len(filterd_matches) >= 20: # 利用トークン節約のため含めるメッセージ数を制限
+                break
 
         return {
             "search_results": filterd_matches,
