@@ -151,6 +151,21 @@ class GPT_Function_Calling_CommandExecutor():
 
             say_ts(client, message, f"関数 `{function_name}` を引数 `query={query}` で呼び出し中...")
 
+            # Function Callingの実行
+            if function_name == "get_web_search_result":
+                function_response = asyncio.run(self.get_web_search_result(query))
+                search_results = function_response["search_results"]
+
+                say_ts(client, message, f"以下のWeb検索の結果を参考に返答します。" + link_references)
+            elif function_name == "get_slack_search_result":
+                function_response = self.get_slack_search_result(query, client)
+                search_results = function_response["search_results"]
+
+                say_ts(client, message, f"{len(search_results)}件のSlack検索の結果が見つかりました。")
+
+            # 検索結果全体でMAX_TOKEN_SIZEを超えたら、検索結果を減らす
+            # 単一検索結果でMAX_TOKEN_SIZEを超えるような検索結果が0件なら返答できない(Slackでも1メッセージ4000文字)
+            # 関数呼び出しの結果をヒストリーに追加
 
         # トークンのサイズがINPUT_MAX_TOKEN_SIZEを超えたら古いものを削除
     
