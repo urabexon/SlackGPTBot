@@ -55,7 +55,9 @@ def say_with_websearch(client_openai, client, message, say, using_user, question
         say_ts(client, message, f"「{query}」に関する検索結果が見つかりませんでした。")
         return
     
-    
+    link_references = []
+    web_results = []
+    link_references = "\n\n" + "".join(link_references)
 
     say_ts(client, message, content)
     logger.info(f"user: {message['user']}, content: {content}")
