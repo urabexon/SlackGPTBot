@@ -64,9 +64,22 @@ def say_with_websearch(client_openai, client, message, say, using_user, question
     link_references = "\n\n" + "".join(link_references)
 
     current_date = datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S")
-    
+    prompt = f"""
+    「{question}」という質問に対して検索結果を参考にしつつ包括的な返答をしてください。
+    検索結果の引用をする場合には、[number] 表記を必ず用いてください。
+    また、検索結果が同名の複数のテーマに言及している場合は、それぞれのテーマについて別々の回答をしてください。\n\n----------------\n\n
+
+    検索クエリ: {query}
+
+    検索結果:
+
+    {web_results}
+
+    現在日時: {current_date}
+    """
 
     # ChatCompletionを呼び出す
+    logger.debug(f"prompt: `{prompt}`")
 
     say_ts(client, message, content)
     logger.info(f"user: {message['user']}, content: {content}")
