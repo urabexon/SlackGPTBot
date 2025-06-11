@@ -199,9 +199,15 @@ class GPT_Function_Calling_CommandExecutor():
                 history_array = history_array[1:]
 
             # 検索結果が大きくのでMAX_TOKEN_SIZEを超えたら対応できない
+            if (len(history_array) == 0):
+                messege_out_of_token_size = f"検索結果のトークン数が{self.INPUT_MAX_TOKEN_SIZE}を超えていたため、対応できませんでした。"
+                say_ts(client, message, messege_out_of_token_size)
+                logger.info(messege_out_of_token_size)
+                self.execute_reset(client, message, say, context, logger) # 対応できないためリセットをしてしまう
+                return
 
             # ChatCompletionを呼び出す
-            
+
             # ヒストリーを新たに追加
             new_response_message = response.choices[0].message
             history_array.append(new_response_message)
