@@ -30,7 +30,10 @@ async def get_web_search_result(query: str, logger) -> List[Dict[str, str]]:
     search_results = []
     from duckduckgo_search import DDGS
     with DDGS() as ddgs:
-        if len(search_results) >= 100:
-                    break
+        for r in ddgs.text(keywords=query, region='wt-wt', safesearch='on', timelimit='y', max_results=100): # 100件で取得
+            logger.debug(f"search_result: {r}")
+            search_results.append(r)
+        if len(search_results) >= 100: # 100件で打ち切り
+            break
 
     return search_results
