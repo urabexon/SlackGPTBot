@@ -15,6 +15,8 @@ class GPT_Function_Calling_CommandExecutor():
         calculate_num_tokens_by_prompt(json.dumps(FUNCTIONS, ensure_ascii=False))
 
     def __init__(self, client_openai):
+        self.history_dict: Dict[str, List[Dict[str, str]]] = {}
+        self.client_openai = client_openai
     
     async def get_web_search_result(self, query):
         """Web検索を実行する、Function Calling用実装 (100件固定)"""
