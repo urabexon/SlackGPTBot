@@ -9,7 +9,36 @@ import asyncio
 class GPT_Function_Calling_CommandExecutor():
     """ChatGPT Function Calling を使ってWeb検索利用やSlack検索利用の会話をするコマンドの実行クラス"""
 
-    FUNCTIONS = []
+    FUNCTIONS = [
+        {
+            "name": "get_web_search_result",
+            "description": "Web検索を行い、検索結果と現在時刻を取得する。これにより最新の情報を取得できる。クエリには複数の単語を指定することができるほか、ダブルクオーテーションを使ったフレーズ検索、ハイフンを利用したマイナス検索、サイト指定やタイトルに含むもの指定、URLに含むもの指定ができる。",
+            "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "query": {
+                            "type": "string",
+                            "description": "検索クエリは、'シャム猫 柴犬', '\"柴犬と三毛猫、飼うならどっち？\"', '日本橋 -東京', '三毛猫 +柴犬', 'シャム猫 filetype:pdf', '柴犬 site:example.com', 'シャム猫 -site:example.com', 'intitle:柴犬', 'inurl:cats' などを組み合わせて使う。例えば、ミノタウロスの閉じ込められた迷宮がどこにあるか知りたい場合には、 'ミノタウロス 迷宮 場所' というクエリとなる。",
+                        }
+                    },
+                "required": ["query"],
+            },
+        },
+        {
+            "name": "get_slack_search_result",
+            "description": "Slack検索を行い、検索結果と現在時刻をを取得する。クエリには検索単語に加えて from:<@{ユーザーID}> と指定すると特定のユーザーのメッセージ、in:<#{チャンネルID}> と指定すると特定のチャンネルのメッセージを検索できる。つまり <@{ユーザーID}> 形式の固有のSlackユーザーの情報や、 <#{チャンネルID}> 形式の固有のSlackチャンネルの情報について情報を取得できる。has:{絵文字コード} で、特定の絵文字を持つメッセージの検索を、 before:{YYYY-MM-DD形式の日付} 日付以前、 after:{YYYY-MM-DD形式の日付} 日付以降、 on:{YYYY-MM-DD形式の日付} その日付、 during:{YYYY-MMの月} その月のメッセージを検索する条件を追加できる。",
+            "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "query": {
+                            "type": "string",
+                            "description": "検索クエリは、 'シャム猫 犬', '\"柴犬と三毛猫、飼うならどっち？\"', '日本橋 -東京', 'from:<@U0VKMCTEV>', 'in:<#C0VF1QBEK>', 'before:2022-11-25', 'after:2022-11-25', 'on:2022-11-25', 'during:2022-11'などを組み合わせて使う。例えば、ユーザー <@U0VKMCTEV> の チャンネル <#C0VF1QBEK> での 2022年11月2日から2022年11月3日までのシャム猫に関することを調べるクエリは、 'from:<@U0VKMCTEV> in:<#C0VF1QBEK> after:2022-11-02 before:2022-11-03 シャム猫' というクエリとなる",
+                        }
+                    },
+                "required": ["query"],
+            },
+        },
+    ]
 
     MAX_TOKEN_SIZE = 128000  # トークンの最大サイズ
     COMPLETION_MAX_TOKEN_SIZE = 4096  # ChatCompletionの出力の最大トークンサイズ
@@ -63,4 +92,3 @@ class GPT_Function_Calling_CommandExecutor():
         using_channel = message["channel"]
         historyIdetifier = get_history_identifier(using_team, using_channel, message["user"])
 
-        
