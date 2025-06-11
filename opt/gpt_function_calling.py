@@ -141,7 +141,16 @@ class GPT_Function_Calling_CommandExecutor():
         history_array.append(new_response_message)
 
         # もしFunction Callingがあれば再度問い合わせる
-        
+        if new_response_message.function_call:
+            function_name = new_response_message.function_call.name
+            function_response = []
+            search_results = []
+
+            function_args = json.loads(new_response_message.function_call.arguments)
+            query = function_args.get("query")
+
+            say_ts(client, message, f"関数 `{function_name}` を引数 `query={query}` で呼び出し中...")
+
 
         # トークンのサイズがINPUT_MAX_TOKEN_SIZEを超えたら古いものを削除
     
