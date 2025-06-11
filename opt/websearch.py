@@ -2,6 +2,8 @@ from typing import List, Dict
 from util import get_user_identifier, calculate_num_tokens_by_prompt, say_ts
 import datetime
 import os
+import re
+import asyncio
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -21,8 +23,14 @@ def say_with_websearch(client_openai, client, message, say, using_user, question
     usingTeam = message["team"]
     userIdentifier = get_user_identifier(usingTeam, using_user)
 
+    say_ts(client, message, content)
+    logger.info(f"user: {message['user']}, content: {content}")
+
 async def get_web_search_result(query: str, logger) -> List[Dict[str, str]]:
     search_results = []
-    from duckduckgo_search
+    from duckduckgo_search import DDGS
+    with DDGS() as ddgs:
+        if len(search_results) >= 100:
+                    break
 
     return search_results
