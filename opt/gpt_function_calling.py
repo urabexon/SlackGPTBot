@@ -120,6 +120,20 @@ class GPT_Function_Calling_CommandExecutor():
 
         # ChatCompletionを呼び出す
         logger.info(f"user: {message['user']}, prompt: {prompt}")
+        response = self.client_openai.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=history_array,
+            top_p=1,
+            n=1,
+            max_tokens=self.COMPLETION_MAX_TOKEN_SIZE,
+            temperature=1,  # 生成する応答の多様性
+            presence_penalty=0,
+            frequency_penalty=0,
+            logit_bias={},
+            user=user_identifier,
+            functions=self.FUNCTIONS,
+            function_call="auto"
+        )
         logger.debug(response)
 
         # ヒストリーを取得
@@ -127,6 +141,8 @@ class GPT_Function_Calling_CommandExecutor():
         history_array.append(new_response_message)
 
         # もしFunction Callingがあれば再度問い合わせる
+        
+
         # トークンのサイズがINPUT_MAX_TOKEN_SIZEを超えたら古いものを削除
     
     def execute_reset(self, client, message, say, context, logger):
