@@ -1,5 +1,7 @@
 from util import get_history_identifier, get_user_identifier, calculate_num_tokens, calculate_num_tokens_by_prompt, say_ts, check_availability
 from typing import List, Dict
+from datetime import datetime
+import json
 import os
 
 class GPT_Function_Calling_CommandExecutor():
@@ -20,6 +22,12 @@ class GPT_Function_Calling_CommandExecutor():
     
     async def get_web_search_result(self, query):
         """Web検索を実行する、Function Calling用実装 (100件固定)"""
+        search_results = []
+        from duckduckgo_search
+        return {
+            "search_results": search_results,
+            "current_time": datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+        }
     
     def get_slack_search_result(self, query, client):
         """Slack検索を実行する、Function Calling用実装 (100件固定)"""
