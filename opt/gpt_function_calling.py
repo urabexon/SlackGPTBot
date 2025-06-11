@@ -172,8 +172,17 @@ class GPT_Function_Calling_CommandExecutor():
             function_json_content = json.dumps(function_response)
 
             # 検索結果全体でMAX_TOKEN_SIZEを超えたら、検索結果を減らす
+            while calculate_num_tokens_by_prompt(function_json_content) > self.COMPLETION_MAX_TOKEN_SIZE:
+                search_results = search_results[:-1]
+                function_response["search_results"] = search_results
+                function_json_content = json.dumps(function_response)
             
             # 単一検索結果でMAX_TOKEN_SIZEを超えるような検索結果が0件なら返答できない(Slackでも1メッセージ4000文字)
+            if len(search_results) == 0:
+                no_result_message = "検索結果が0件であったため返答できませんでした。別の質問に変更をお願いします。"
+                say_ts(client, message, no_result_message)
+                return
+
             # 関数呼び出しの結果をヒストリーに追加
 
         # トークンのサイズがINPUT_MAX_TOKEN_SIZEを超えたら古いものを削除
