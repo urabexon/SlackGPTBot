@@ -162,6 +162,8 @@ class GPT_Function_Calling_CommandExecutor():
                 search_results = function_response["search_results"]
 
                 say_ts(client, message, f"{len(search_results)}件のSlack検索の結果が見つかりました。")
+            
+            function_json_content = json.dumps(function_response)
 
             # 検索結果全体でMAX_TOKEN_SIZEを超えたら、検索結果を減らす
             # 単一検索結果でMAX_TOKEN_SIZEを超えるような検索結果が0件なら返答できない(Slackでも1メッセージ4000文字)
