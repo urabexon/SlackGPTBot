@@ -207,6 +207,18 @@ class GPT_Function_Calling_CommandExecutor():
                 return
 
             # ChatCompletionを呼び出す
+            response = self.client_openai.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=history_array,
+                top_p=1,
+                n=1,
+                max_tokens=self.COMPLETION_MAX_TOKEN_SIZE,
+                temperature=1,  # 生成する応答の多様性
+                presence_penalty=0,
+                frequency_penalty=0,
+                logit_bias={},
+                user=user_identifier
+            )
 
             # ヒストリーを新たに追加
             new_response_message = response.choices[0].message
