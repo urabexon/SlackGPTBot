@@ -63,7 +63,10 @@ def say_with_websearch(client_openai, client, message, say, using_user, question
         link_references.append(f"{idx+1}. <{result['href']}|{domain_name}>\n")
     link_references = "\n\n" + "".join(link_references)
 
+    current_date = datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S")
     
+
+    # ChatCompletionを呼び出す
 
     say_ts(client, message, content)
     logger.info(f"user: {message['user']}, content: {content}")
