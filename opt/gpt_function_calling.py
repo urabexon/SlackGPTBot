@@ -109,4 +109,5 @@ class GPT_Function_Calling_CommandExecutor():
          # 履歴リセット
         self.history_dict[historyIdetifier] = []
 
+        logger.info(f"<@{message['user']}> さんの <#{using_channel}> での会話の履歴をリセットしました。")
         say_ts(client, message, f"<@{message['user']}> さんの <#{using_channel}> での会話の履歴をリセットしました。")
