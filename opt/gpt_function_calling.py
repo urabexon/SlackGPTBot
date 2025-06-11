@@ -156,6 +156,12 @@ class GPT_Function_Calling_CommandExecutor():
                 function_response = asyncio.run(self.get_web_search_result(query))
                 search_results = function_response["search_results"]
 
+                link_references = []
+                for idx, result in enumerate(search_results):
+                    domain_name = urllib3.util.parse_url(result["href"]).host
+                    link_references.append(f"{idx+1}. <{result['href']}|{domain_name}>\n")
+
+                link_references = "\n\n" + "".join(link_references)
                 say_ts(client, message, f"以下のWeb検索の結果を参考に返答します。" + link_references)
             elif function_name == "get_slack_search_result":
                 function_response = self.get_slack_search_result(query, client)
@@ -166,6 +172,7 @@ class GPT_Function_Calling_CommandExecutor():
             function_json_content = json.dumps(function_response)
 
             # 検索結果全体でMAX_TOKEN_SIZEを超えたら、検索結果を減らす
+            
             # 単一検索結果でMAX_TOKEN_SIZEを超えるような検索結果が0件なら返答できない(Slackでも1メッセージ4000文字)
             # 関数呼び出しの結果をヒストリーに追加
 
