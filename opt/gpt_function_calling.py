@@ -71,6 +71,17 @@ class GPT_Function_Calling_CommandExecutor():
         matches = search_response["messages"]["matches"]
         filterd_matches = []
 
+        for match in matches:  # パブリックのチャンネルのメッセージのみを抽出
+            if match["channel"]["is_private"] == False and match["channel"]["is_mpim"] == False:
+                # JSONが大きいため、トークン数節約のため情報を絞る
+                filterd_matches.append({
+                    "channel_id": match["channel"]["id"],
+                    "channel_name": match["channel"]["name"],
+                    "text":  match["text"],
+                    "timestamp": datetime.fromtimestamp(float(match["ts"])).strftime("%Y/%m/%d %H:%M:%S"),
+                    "user_id": match["user"]  # usernameは古いデフォルト名なため入れない
+                })
+
         return {
             "search_results": filterd_matches,
             "current_time": datetime.now().strftime("%Y/%m/%d %H:%M:%S")
