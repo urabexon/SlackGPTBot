@@ -41,8 +41,22 @@ def say_with_websearch(client_openai, client, message, say, using_user, question
     query_gpt_response_content = query_gpt_response.choices[0].message.content
 
     logger.debug(f"queryGPTResponseContent: {query_gpt_response_content}")
-
+    matches = re.match(r'^(.|\s)*##########(.*)##########(.|\s)*$', query_gpt_response_content)
+    query = ""
+    if matches is None:
+        query = question # 検索クエリがない場合は質問そのものを検索クエリにする
+    else:
+        query = matches.group(2)
     
+    logger.info(f"user: {message['user']}, query: `{query}`")
+    search_results = asyncio.run(get_web_search_result(query, logger))
+
+    if search_results is None or len(search_results) == 0:
+        say_ts(client, message, f"「{query}」に関する検索結果が見つかりませんでした。")
+        return
+    
+    
+
     say_ts(client, message, content)
     logger.info(f"user: {message['user']}, content: {content}")
 
