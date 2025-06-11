@@ -181,9 +181,23 @@ class GPT_Function_Calling_CommandExecutor():
             if len(search_results) == 0:
                 no_result_message = "検索結果が0件であったため返答できませんでした。別の質問に変更をお願いします。"
                 say_ts(client, message, no_result_message)
+                history_array.append({
+                    "role": "assistant",
+                    "content": no_result_message,
+                })
                 return
 
             # 関数呼び出しの結果をヒストリーに追加
+            history_array.append({
+                "role": "function",
+                "name": function_name,
+                "content": function_json_content,  # JSON文字列
+            })
+
+            # トークンのサイズがINPUT_MAX_TOKEN_SIZEを超えたら古いものを削除
+            # 検索結果が大きくのでMAX_TOKEN_SIZEを超えたら対応できない
+            # ChatCompletionを呼び出す
+            # ヒストリーを新たに追加
 
         # トークンのサイズがINPUT_MAX_TOKEN_SIZEを超えたら古いものを削除
     
