@@ -225,6 +225,9 @@ class GPT_Function_Calling_CommandExecutor():
             history_array.append(new_response_message)
 
         # トークンのサイズがINPUT_MAX_TOKEN_SIZEを超えたら古いものを削除
+        while calculate_num_tokens(history_array) > self.INPUT_MAX_TOKEN_SIZE:
+            history_array = history_array[1:]
+        self.history_dict[history_idetifier] = history_array  # ヒストリーを更新
     
     def execute_reset(self, client, message, say, context, logger):
         """ChatGPT Function Callingを使った会話履歴のリセットをするコマンドの実行メソッド"""
