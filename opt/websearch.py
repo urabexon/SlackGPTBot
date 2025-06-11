@@ -23,6 +23,14 @@ def say_with_websearch(client_openai, client, message, say, using_user, question
     usingTeam = message["team"]
     userIdentifier = get_user_identifier(usingTeam, using_user)
 
+    # ChatCompletionから適切なクエリを聞く
+    query_ask_prompt = f"「{question}」という質問をDuckDuckGoの検索で調べるときに適切な検索クエリを教えてください。検索クエリとは単一の検索のための単語、または、複数の検索のための単語を半角スペースで繋げた文字列です。検索クエリを##########検索クエリ##########の形式で教えてください。"
+    logger.debug(query_gpt_response)
+    query_gpt_response_content = query_gpt_response.choices[0].message.content
+
+    logger.debug(f"queryGPTResponseContent: {query_gpt_response_content}")
+    
+    
     say_ts(client, message, content)
     logger.info(f"user: {message['user']}, content: {content}")
 
