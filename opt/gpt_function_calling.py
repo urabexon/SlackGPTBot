@@ -99,6 +99,14 @@ class GPT_Function_Calling_CommandExecutor():
 
         prompt = context["matches"][0]
 
+        # ヒストリーを取得
+        history_array: List[Dict[str, str]] = []
+        if history_idetifier in self.history_dict.keys():
+            history_array = self.history_dict[history_idetifier]
+        history_array.append({"role": "user", "content": prompt})
+
+        say_ts(client, message, f"<@{message['user']}> さんの以下の発言に対応中（履歴数: {len(history_array)} 、トークン数: {calculate_num_tokens(history_array)}）\n```\n{prompt}\n```")
+
     
     def execute_reset(self, client, message, say, context, logger):
         """ChatGPT Function Callingを使った会話履歴のリセットをするコマンドの実行メソッド"""
