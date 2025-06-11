@@ -57,7 +57,13 @@ def say_with_websearch(client_openai, client, message, say, using_user, question
     
     link_references = []
     web_results = []
+    for idx, result in enumerate(search_results):
+        domain_name = urllib3.util.parse_url(result["href"]).host
+        web_results.append(f'[{idx+1}]"{result["body"]}"\nURL: {result["href"]}')
+        link_references.append(f"{idx+1}. <{result['href']}|{domain_name}>\n")
     link_references = "\n\n" + "".join(link_references)
+
+    
 
     say_ts(client, message, content)
     logger.info(f"user: {message['user']}, content: {content}")
