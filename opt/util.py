@@ -45,6 +45,7 @@ def calculate_num_tokens(messages: List[Dict[str, str]], model: str = GPT_4O_MIN
 
 def calculate_num_tokens_by_prompt(prompt):
     """プロンプトのトークン数を計算する"""
+    return calculate_num_tokens([{"role": "user", "content": prompt}])
 
 def get_history_identifier(team, channel, user):
     """会話履歴を取得するためのIDを生成する"""
