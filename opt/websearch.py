@@ -80,7 +80,21 @@ def say_with_websearch(client_openai, client, message, say, using_user, question
 
     # ChatCompletionを呼び出す
     logger.debug(f"prompt: `{prompt}`")
+    chat_gpt_response = client_openai.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[{"role": "user", "content": prompt}],
+        top_p=1,
+        n=1,
+        max_tokens=COMPLETION_MAX_TOKEN_SIZE,
+        temperature=1,  # 生成する応答の多様性
+        presence_penalty=0,
+        frequency_penalty=0,
+        logit_bias={},
+        user=userIdentifier
+    )
+    logger.debug(chat_gpt_response)
 
+    content = chat_gpt_response.choices[0].message.content + link_references
     say_ts(client, message, content)
     logger.info(f"user: {message['user']}, content: {content}")
 
