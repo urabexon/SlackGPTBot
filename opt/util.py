@@ -18,6 +18,7 @@ def calculate_num_tokens_by_prompt(prompt):
 
 def get_history_identifier(team, channel, user):
     """会話履歴を取得するためのIDを生成する"""
+    return f"slack-{team}-{channel}-{user}"
 
 def get_user_identifier(team, user):
     """ユーザーを特定するためのIDを生成する"""
