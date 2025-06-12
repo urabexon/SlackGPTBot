@@ -59,3 +59,10 @@ def check_availability(message, logger) -> bool:
 
 def check_daily_user_limit(message, usage_log) -> bool:
     """このユーザーが利用可能かどうかを返す。 check True で利用可能"""
+    # もし環境変数にDAILY_USER_LIMITが設定されていて、かつ、ユーザーの利用回数がその上限を超えているなら、利用不可
+    if os.getenv("DAILY_USER_LIMIT"):
+        daily_user_limit = int(os.getenv("DAILY_USER_LIMIT"))
+        num_logs = usage_log.get_num_logs(message["user"])
+        return num_logs <= daily_user_limit
+    else:
+        return True
