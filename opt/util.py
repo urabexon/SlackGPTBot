@@ -4,6 +4,9 @@ from distutils.util import strtobool
 
 def say_ts(client, message, text):
     """スレッドへの返信を行う形式で発言する"""
+    client.chat_postMessage(channel=message["channel"], thread_ts=message["ts"], text=text)
+    enc = tiktoken.get_encoding("cl100k_base")
+    GPT_4O_MINI_MODEL = "gpt-4o-mini"
 
 def calculate_num_tokens(messages: List[Dict[str, str]], model: str = GPT_4O_MINI_MODEL,) -> int:
     """
