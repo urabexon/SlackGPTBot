@@ -1,6 +1,7 @@
 from typing import List, Dict
 import os
 from distutils.util import strtobool
+import tiktoken
 
 def say_ts(client, message, text):
     """スレッドへの返信を行う形式で発言する"""
@@ -57,7 +58,11 @@ def get_user_identifier(team, user):
 
 def check_availability(message, logger) -> bool:
     """このチャンネルが利用可能かどうかを返す。 check True で利用可能"""
-    
+     # もし環境変数にUSE_ONLY_PUBLIC_CHANNELが設定されていて、かつ、チャンネルタイプがpublicであるchannelでないなら、利用不可
+    if strtobool(os.getenv("USE_ONLY_PUBLIC_CHANNEL")) and message["channel_type"] != "channel":
+        return False
+    else:
+        return True
 
 def check_daily_user_limit(message, usage_log) -> bool:
     """このユーザーが利用可能かどうかを返す。 check True で利用可能"""
