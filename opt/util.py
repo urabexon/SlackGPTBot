@@ -12,6 +12,36 @@ def calculate_num_tokens(messages: List[Dict[str, str]], model: str = GPT_4O_MIN
     """
     メッセージのトークン数を計算する
     """
+    try:
+        encoding = tiktoken.encoding_for_model(model)
+    except KeyError:
+        encoding = tiktoken.get_encoding("cl100k_base")
+    if model == GPT_4O_MINI_MODEL:
+        num_tokens = 0
+        for message in messages:
+            num_tokens += 4
+            if hasattr(message, "items"):
+                for key, value in message.items():
+                    if isinstance(value, list): # GPT-4oの場合はcontentが複数ある場合があるのでその分岐
+                        for v in value:
+                            for in_value_key, in_value_value in v.items():
+                                if (in_value_key == "text" or in_value_key == "type")and isinstance(in_value_value, str):
+                                    num_tokens += len(encoding.encode(in_value_value))
+                    else: 
+                        if not isinstance(value, str):
+                            continue
+                        num_tokens += len(encoding.encode(value))
+                        if key == "name":
+                            num_tokens += -1
+        num_tokens += 2
+        return num_tokens
+    else:
+        error = (
+            f"Calculating the number of tokens for for model {model} is not yet supported. "
+            "See https://github.com/openai/openai-python/blob/main/chatml.md "
+            "for information on how messages are converted to tokens."
+        )
+        raise NotImplementedError(error)
 
 def calculate_num_tokens_by_prompt(prompt):
     """プロンプトのトークン数を計算する"""
