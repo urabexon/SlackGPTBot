@@ -37,6 +37,19 @@ class Usage_Logs:
         self.conn.commit()
 
     def save(self, user_id, command_type):
+        c = self.conn.cursor()
+
+        # 現在日時を取得
+        now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        date = datetime.now().strftime('%Y-%m-%d')
+
+        # データの挿入
+        c.execute('''
+            INSERT INTO usage_logs (date, user_id, command_type, created_at)
+            VALUES (?, ?, ?, ?)
+        ''', (date, user_id, command_type, now))
+
+        self.conn.commit()
     
     def get_num_logs(self, user_id):
     
