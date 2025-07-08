@@ -20,7 +20,8 @@ opt/slackbot.db
 .vscode/c_cpp_properties.json
 .vscode/launch.json
 .vscode/settings.json
-.cursor
+.cursor/
+CLAUDE.md
 
 # Docker
 *.pid
