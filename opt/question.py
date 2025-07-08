@@ -39,6 +39,16 @@ def say_question(client_openai, client, message, say, using_user, target_channel
     logger.debug(query_gpt_response)
     query_gpt_response_content = query_gpt_response.choices[0].message.content
 
+    logger.debug(f"queryGPTResponseContent: {query_gpt_response_content}")
+    matches = re.match(
+        r'^(.|\s)*##########(.*)##########(.|\s)*$', query_gpt_response_content)
+    query = ""
+    if matches is None:
+        query = question # 検索クエリがない場合は質問そのものを検索クエリにする
+    else:
+        query = matches.group(2)
+
+
     logger.debug(chat_gpt_response)
 
     say_ts(client, message, chat_gpt_response.choices[0].message.content)
