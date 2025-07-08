@@ -16,7 +16,26 @@ class Usage_Logs:
         self.create_table()
 
     def create_table(self):
-    
+        c = self.conn.cursor()
+
+        # テーブルが存在しない場合のみ新規作成
+        c.execute('''
+            CREATE TABLE IF NOT EXISTS usage_logs (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                date text,
+                user_id text,
+                command_type text,
+                created_at text
+            )
+        ''')
+
+        # (date, user_id)にインデックスを作成
+        c.execute('''
+            CREATE INDEX IF NOT EXISTS idx_date_user ON usage_logs (date, user_id)
+        ''')
+
+        self.conn.commit()
+
     def save(self, user_id, command_type):
     
     def get_num_logs(self, user_id):
