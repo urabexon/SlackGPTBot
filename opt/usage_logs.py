@@ -22,7 +22,7 @@ class Usage_Logs:
     def get_num_logs(self, user_id):
     
     def close(self):
-    
+        self.conn.close()
 
 class Command_Type(Enum):
     '''
