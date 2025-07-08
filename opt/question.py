@@ -63,11 +63,11 @@ def say_question(client_openai, client, message, say, using_user, target_channel
             投稿内容: {match["text"]}
             """
             prompt += formated_message
-        prompt += "\n----------------\n\n"
-
-    # logger.debug(f"prompt: `{prompt}`")
+       prompt += "\n----------------\n\n"
     
-    
+    # 指定トークン数以上になったら追加しない
+    if calculate_num_tokens_by_prompt(prompt) < INPUT_MAX_TOKEN_SIZE:
+        prompt += formated_message
 
     # ChatCompletionを呼び出す
     logger.debug(f"prompt: `{prompt}`")
