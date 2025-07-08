@@ -84,11 +84,11 @@ DAILY_USER_LIMIT=
 ```
 
 ## 各項目の意味 🧪
-- NAME_SUFFIX: Docker コンテナ名が重複しないようにするためのサフィックス
-- USE_ONLY_PUBLIC_CHANNEL: パブリックチャンネルのみに制限する（True/False）
-- USE_GPT_4_COMMAND: GPT-4関連コマンドを有効にするか
-- USE_GPT_4O_COMMAND: GPT-4o関連コマンドを有効にするか
-- DAILY_USER_LIMIT: ユーザーごとの1日の使用上限回数（空欄で無制限）
+- `NAME_SUFFIX`: Docker コンテナ名が重複しないようにするためのサフィックス
+- `USE_ONLY_PUBLIC_CHANNEL`: パブリックチャンネルのみに制限する（True/False）
+- `USE_GPT_4_COMMAND`: GPT-4関連コマンドを有効にするか
+- `USE_GPT_4O_COMMAND`: GPT-4o関連コマンドを有効にするか
+- `DAILY_USER_LIMIT`: ユーザーごとの1日の使用上限回数（空欄で無制限）
 
 ## 起動方法 🐳
 
@@ -107,11 +107,11 @@ docker compose --env-file ./opt/.env down
 docker compose logs
 ```
 
-Python 3.9.6 以上での動作を確認済みです。
+Python 3.9.6以上での動作を確認済みです。
 
 ## 利用ログ 📊
 
-opt/slackbot.db に SQLite3 形式でログが保存されます。
+`opt/slackbot.db` にSQLite3形式でログが保存されます。
 ```bash
 CREATE TABLE IF NOT EXISTS usage_logs (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -152,4 +152,4 @@ SELECT user_id, COUNT(*) as count FROM usage_logs GROUP BY user_id ORDER BY coun
 ```
 
 ## LICENSE 📄
-このプロジェクトは MIT License のもとで公開されています。
+このプロジェクトはMIT Licenseのもとで公開されています。
