@@ -1,5 +1,3 @@
-CONTRIBUTING.md
-
 # Contributing to SlackGPTBot
 
 Thanks for considering contributing to SlackGPTBot! 🎉
