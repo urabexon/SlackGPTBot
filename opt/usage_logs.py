@@ -52,6 +52,21 @@ class Usage_Logs:
         self.conn.commit()
     
     def get_num_logs(self, user_id):
+        c = self.conn.cursor()
+
+        # 本日の日付を取得
+        date = datetime.now().strftime('%Y-%m-%d')
+
+        # 本日の利用数を取得
+        c.execute('''
+            SELECT COUNT(*)
+            FROM usage_logs
+            WHERE date = ? AND user_id = ?
+        ''', (date, user_id))
+
+        count = c.fetchone()[0]
+
+        return count
     
     def close(self):
         self.conn.close()
