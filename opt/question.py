@@ -48,7 +48,42 @@ def say_question(client_openai, client, message, say, using_user, target_channel
     else:
         query = matches.group(2)
 
+    logger.debug(f"query: `{query}`")
+    # Slack検索数は100件までで固定
+    search_response = client.search_messages(token=os.getenv("SLACK_USER_TOKEN"), query=query, count=100, highlight=False)
+    matches = search_response["messages"]["matches"]
 
+    prompt = f"「{question}」という質問の答えを、以下のSlack上の「{query}」の検索結果の情報も加味し、検討して答えてください。またその根拠も答えてください。\n\n----------------\n\n"
+    for match in matches:
+        if match["channel"]["is_private"] == False and match["channel"]["is_mpim"] == False and "username" in match:
+            formated_message = f"""
+            投稿チャンネル: {match["channel"]["name"]}
+            投稿日時: {datetime.datetime.fromtimestamp(float(match["ts"]))}
+            ユーザー名: {match["username"]}
+            投稿内容: {match["text"]}
+            """
+            prompt += formated_message
+        prompt += "\n----------------\n\n"
+
+    # logger.debug(f"prompt: `{prompt}`")
+    
+    
+
+    # ChatCompletionを呼び出す
+    logger.debug(f"prompt: `{prompt}`")
+    chat_gpt_response = client_openai.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[{"role": "user", "content": prompt}],
+        top_p=1,
+        n=1,
+        max_tokens=COMPLETION_MAX_TOKEN_SIZE,
+        temperature=1,
+        presence_penalty=0,
+        frequency_penalty=0,
+        logit_bias={},
+        user=userIdentifier
+    )
     logger.debug(chat_gpt_response)
 
     say_ts(client, message, chat_gpt_response.choices[0].message.content)
+    logger.info(f"user: {message['user']}, content: {chat_gpt_response.choices[0].message.content}")
