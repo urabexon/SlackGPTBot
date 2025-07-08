@@ -1,4 +1,4 @@
-# SlackGPTBot 🤖
+# SlackGPTBot 👾
 
 SlackGPTBot is a smart Slack Bot that lets you interact with ChatGPT on Slack.<br>
 Simply send a mentions to Slack and ChatGPT will respond instantly.
@@ -10,4 +10,5 @@ Simply send a mentions to Slack and ChatGPT will respond instantly.
 
 ---
 
-Comming Soon...
+## License 📄
+This project is licensed under the MIT License.
