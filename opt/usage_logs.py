@@ -16,6 +16,10 @@ class Command_Type(Enum):
     '''
     ユーザーの利用ログのコマンドタイプ
     '''
-    CHAT = 1
-    IMAGE = 2
-    
+    GPT = 'gpt'
+    GPT_UA = 'gpt-ua'
+    GPT_CA = 'gpt-ca'
+    GPT_W = 'gpt-w'
+    GPT_Q = 'gpt-q'
+    GPT_4 = 'gpt-4'
+    GPT_4O = 'gpt-4o
