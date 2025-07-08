@@ -1,4 +1,4 @@
-# ChatGPT Slackbot
+# SlackGPTBot 👾
 
 Slackを通じて会話人工知能のChatGPTを利用するためのBOTスクリプト。  
 会話の履歴数はトークン数に応じて最大まで保持。ユーザーごと、チャンネルごとに異なる履歴を保持する。
@@ -6,61 +6,72 @@ Slackを通じて会話人工知能のChatGPTを利用するためのBOTスク�
 ユーザーを過去の発言から分析したり、Web検索の結果やワークスペースの結果を加味して質問に答えることもできる。  
 基本的には、 `gpt-4o-mini` のモデルを利用している。 `!gpt` コマンドは、内部的にFunction Callingを使っており「Web検索をして～して」または「Slack検索をして～して」と伝えることで検索結果を考慮した受け答えができる。 
 
-## ボットの使い方
-- AI(ChatGPT)との会話: !gpt \[会話内容\]  
-- AI(ChatGPT)との会話の履歴をリセット: !gpt-rs
-- 指定したユーザーの直近のパブリックチャンネルで発言からユーザー分析を依頼: !gpt-ua \[@ユーザー名\]
-- 指定したパブリックチャンネルで投稿内容からチャンネルの分析を依頼: !gpt-ca \[#パブリックチャンネル名\]
-- Web検索(DuckDuckGo)の結果を踏まえて質問に答える: !gpt-w \[質問\]
-- パブリックチャンネルの検索結果を踏まえて質問に答える: !gpt-q \[質問\]
-- AI(GPT-4)との会話: !gpt-4 \[会話内容\]
-- AI(GPT-4)との会話の履歴をリセット: !gpt-4-rs
-- AI(GPT-4o)との添付画像を含めた会話(画像は履歴に引き継ぎません): !gpt-4o \[会話内容+画像添付\]
-- AI(GPT-4o)との会話の履歴をリセット: !gpt-4o-rs
-- 使い方を表示: !gpt-help
+## ボットの使い方 🗣
 
-セッションの概念はないが、API側には不正行為検出のためにSlack上のユーザーIDを渡している。
+### 基本コマンド 🎯
 
-## 環境構築
-### OpenAIのAPI Token(SECRET KEY)とOrganazation IDを取得。
-[OpenAI API Keys](https://beta.openai.com/account/api-keys)にアクセスしてアカウント作成の後、SECRET KEYを取得。
+- `!gpt [会話内容]`: AI(ChatGPT)との会話
+- `!gpt-rs`: 会話の履歴をリセット
+- `!gpt-4 [会話内容]`: GPT-4モデルとの会話
+- `!gpt-4-rs`: GPT-4の履歴をリセット
+- `!gpt-4o [会話内容 + 画像添付]`: GPT-4oとの画像付き会話（履歴には含まれません）
+- `!gpt-4o-rs`: GPT-4oの履歴をリセット
 
-### Slack Botのトークンの用意
-[Bolt 入門ガイド](https://slack.dev/bolt-python/ja-jp/tutorial/getting-started)に準拠。
+### 分析コマンド 🕵️
 
-- SLACK_BOT_TOKEN
-- SLACK_APP_TOKEN
-- SLACK_USER_TOKEN
+- `!gpt-ua [@ユーザー名]`: 指定ユーザーのパブリック発言からユーザー分析
+- `!gpt-ca [#チャンネル名]`: 指定チャンネルの内容からチャンネル分析
 
-を取得しておく。
+### 検索・外部連携 🔍
 
-#### SLACK_BOT_TOKENで要求するスコープ
+- `!gpt-w [質問]`: Web検索（DuckDuckGo）を踏まえた回答
+- `!gpt-q [質問]`: パブリックチャンネルの検索結果を踏まえた回答
 
-##### Bot Token Scopes
-- chat:write
-- files:write (今後のDALL-Eとの統合のため)
-- files:read (GPT-4oのため)
+### ヘルプ 📘
 
-##### User Token Scopes
-- search:read
+- `!gpt-help`: 使い方の一覧を表示します
 
-##### Event SubscriptionsのSubscribe to Bot Events で要求するスコープ
+セッションの概念はありませんが、API側には不正行為検出のためSlack上のユーザーIDを渡しています。🗨️
 
-- message.channels
-- message.groups
-- message.im
-- message.mpim
+## 環境構築 ⚙️
+### OpenAI の API キーと Organization ID の取得
 
-#### manifestファイルでの設定
+[OpenAI API Keys](https://beta.openai.com/account/api-keys) にアクセスし、アカウントを作成後、Secret Key を取得してください。 🧾
 
-[config/manifest.yml](config/manifest.yml)をSlack Botの設定画面で読み込むことで、上記のスコープを簡単に設定できます。
+### Slack Bot のトークン準備
 
-### インストール方法
-Python3.9.6以上で動作を確認済み。
+[Bolt 入門ガイド](https://slack.dev/bolt-python/ja-jp/tutorial/getting-started) を参考に、Slack App を作成して以下のトークンを取得します：
 
-`opt/.env` ファイルをフォルダ内に作成して、自分のクレデンシャル情報を記述
+- `SLACK_BOT_TOKEN`
+- `SLACK_APP_TOKEN`
+- `SLACK_USER_TOKEN` 🔐
 
-```
+#### Bot Token Scopes（`SLACK_BOT_TOKEN`）
+
+- `chat:write`
+- `files:write`（今後の DALL·E 統合のため）
+- `files:read`（GPT-4o のため）
+
+#### User Token Scopes（`SLACK_USER_TOKEN`）
+
+- `search:read`
+
+#### イベント購読（Event Subscriptions）
+
+- `message.channels`
+- `message.groups`
+- `message.im`
+- `message.mpim`
+
+#### manifestファイルの使用
+
+[`config/manifest.yml`](config/manifest.yml) を Slack App に読み込むことで、上記スコープを一括設定可能です。📄
+
+## `.env` ファイルの設定 🧾
+
+`opt/.env` に以下のような環境変数を記述してください。
+
+```env
 OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxxx
 SLACK_BOT_TOKEN=xoxb-xxxxxxxxxxxxxxxxx
 SLACK_USER_TOKEN=xoxp-xxxxxxxxxxxxxxxxx
@@ -72,87 +83,73 @@ USE_GPT_4O_COMMAND=False
 DAILY_USER_LIMIT=
 ```
 
-NAME_SUFFIXは複数、Dockerコンテナを起動する際にコンテナ名がかぶらないようにするためのサフィックス。USE_ONLY_PUBLIC_CHANNELはパブリックチャンネルのみに利用を制限するか。USE_GPT_4_COMMANDはGPT-4で会話するコマンドを利用するか。USE_GPT_4O_COMMANDはGPT-4Oで会話するコマンドを利用するか。DAILY_USER_LIMITは、1日にユーザーが利用できる上限回数を設定できる機能。整数値で設定する。空の場合は制限なし。
+## 各項目の意味 🧪
+- NAME_SUFFIX: Docker コンテナ名が重複しないようにするためのサフィックス
+- USE_ONLY_PUBLIC_CHANNEL: パブリックチャンネルのみに制限する（True/False）
+- USE_GPT_4_COMMAND: GPT-4関連コマンドを有効にするか
+- USE_GPT_4O_COMMAND: GPT-4o関連コマンドを有効にするか
+- DAILY_USER_LIMIT: ユーザーごとの1日の使用上限回数（空欄で無制限）
 
-なお、過去USE_GPT_4V_COMMANDの設定がありましたがGPT-4oのリリースとともに廃止されました。
+## 起動方法 🐳
 
-あとは以下を実行してイメージをビルド&実行。
-
-```
+Docker を使って以下のように実行します：
+```bash
 docker compose --env-file ./opt/.env up -d --build
 ```
 
-以上で起動。
-
-```
+停止：
+```bash
 docker compose --env-file ./opt/.env down
 ```
 
-で停止。
-
-```
+ログの確認：
+```bash
 docker compose logs
 ```
-でログ確認。
 
-## 利用ログ
-`opt/slackbot.db` のsqlite3ファイルに利用ログが記録される。
+Python 3.9.6 以上での動作を確認済みです。
 
-```
+## 利用ログ 📊
+
+opt/slackbot.db に SQLite3 形式でログが保存されます。
+```bash
 CREATE TABLE IF NOT EXISTS usage_logs (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     date text,
     user_id text,
     command_type text,
     created_at text
-)
-CREATE INDEX IF NOT EXISTS idx_date_user ON usage_logs (date, user_id)
+);
+CREATE INDEX IF NOT EXISTS idx_date_user ON usage_logs (date, user_id);
 ```
 
-コピーを取得して、sqlite3コマンドでsqlを発行して利用ログを確認できる。ワンライナーであれば以下のように直近のログを表示することができる。  
-
-```
+確認例（直近100件）：
+```bash
 sqlite3 slackbot.db "select * from usage_logs order by created_at desc limit 100;"
 ```
 
-### SQlite3のDBへの接続および表の整形の仕方
-
-sqlite3コマンドで接続して以下のようにすることで表の整形ができる
-
-```
+整形表示（対話形式）：
+```bash
 sqlite3 slackbot.db
 sqlite> .headers on
 sqlite> .mode column
-sqlite> select * from  usage_logs order by created_at desc limit 100;
+sqlite> select * from usage_logs order by created_at desc limit 100;
 ```
 
-```
-id          date        user_id      command_type  created_at
-----------  ----------  -----------  ------------  -------------------
-94          2023-06-28  UXXXXXXXXXX  gpt           2023-06-28 11:19:56
-93          2023-06-28  UXXXXXXXXXX  gpt-ca        2023-06-28 11:18:13
-92          2023-06-28  UXXXXXXXXXX  gpt-ua        2023-06-28 11:10:36
-91          2023-06-28  UXXXXXXXXXX  gpt-ua        2023-06-28 11:08:49
-90          2023-06-28  UXXXXXXXXXX  gpt-ua        2023-06-28 11:04:36
-89          2023-06-28  UXXXXXXXXXX  gpt-ua        2023-06-28 11:03:34
-88          2023-06-28  UXXXXXXXXXX  gpt-ca        2023-06-28 11:00:51
-87          2023-06-28  UXXXXXXXXXX  gpt           2023-06-28 10:54:41
-```
-
-### 日付ごとの利用回数取得SQL
-```
+日付ごとの利用回数：
+```bash
 SELECT date, COUNT(*) as count FROM usage_logs GROUP BY date ORDER BY date DESC;
 ```
 
-### 日付ごとのコマンドごとの利用回数取得SQL
-```
+日付×コマンド別の集計：
+```bash
 SELECT date, command_type, COUNT(*) as count FROM usage_logs GROUP BY date, command_type ORDER BY date DESC;
 ```
 
-### ユーザーごとのコマンドごとの利用回数取得SQL
-```
+ユーザー別の利用数：
+```bash
 SELECT user_id, COUNT(*) as count FROM usage_logs GROUP BY user_id ORDER BY count DESC;
 ```
 
-## LICENSE
-The MIT License
+## LICENSE 📄
+このプロジェクトは MIT License のもとで公開されています。
