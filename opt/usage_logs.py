@@ -11,6 +11,16 @@ class Usage_Logs:
     またこのクラスのインスタンスを一度でも作ったら、それ以降は同じインスタンスを使い回すことを想定している。
     よってDBのクローズは行わない。
     '''
+    def __init__(self, db_name='slackbot.db'):
+
+    def create_table(self):
+    
+    def save(self, user_id, command_type):
+    
+    def get_num_logs(self, user_id):
+    
+    def close(self):
+    
 
 class Command_Type(Enum):
     '''
